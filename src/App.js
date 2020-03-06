@@ -18,21 +18,34 @@ class App extends React.Component {
 	}
 
 	componentDidUpdate() {
-		setTimeout(()=>{
+		/*setTimeout(()=>{
 			this.setState({tareas: [
 				'Tarea act',
 				'Tarea act']
 			})
-		}, 2000)
+		}, 2000)*/
 	}
 
-	componentDidMount() {
-		setTimeout(()=>{
-			this.setState({tareas: [
-				'Tarea 3',
-				'Tarea 4']
-			})
-		}, 2000)
+	/*componentDidMount() {
+		fetch('https://jsonplaceholder.typicode.com/todos')
+			.then(res => res.json())
+			.then(
+				result => {
+					let tareasJson = result.map(x => x.title);
+					this.setState({tareas: tareasJson});
+				},
+				error => {
+					this.setState({tareas: ['Error']});
+				}
+			)
+	}*/
+
+	async componentDidMount() {
+		const response = await fetch('https://jsonplaceholder.typicode.com/todos');
+		const json = await response.json();
+
+		let tareasJson = json.map(x => x.title);
+		this.setState({tareas: tareasJson});
 	}
 
 	handleBorrarTarea = (index) => {
@@ -43,7 +56,8 @@ class App extends React.Component {
 	}
 
 	handleAgregarTarea = tarea => {
-		this.setState({tareas: this.state.tareas.concat(tarea)});
+		//this.setState({tareas: this.state.tareas.concat(tarea)});
+		this.setState({tareas: [...this.state.tareas, tarea]});
 	}
 
 	render() {
